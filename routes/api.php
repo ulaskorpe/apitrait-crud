@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+	use App\Http\Controllers\UsController;
+	use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-	Route::get('users',[\App\Http\Controllers\UserController::class,'index']);
+	//Route::get('users',[\App\Http\Controllers\UserController::class,'index']);
+
+
+	Route::resource('users', UsController::class);
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
