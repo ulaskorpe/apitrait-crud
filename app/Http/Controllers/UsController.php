@@ -19,11 +19,11 @@ class UsController extends Controller
 
 	function validationRules($resource_id = 0)
 	{
-		return ['title' => 'required', 'content' => 'required'];
+        return [ ];
 	}
 
-	function columns(array $columns)
+	function columns()
 	{
-		return ['id','name'];
+		return ['id','firstname'];
 	}
 }
