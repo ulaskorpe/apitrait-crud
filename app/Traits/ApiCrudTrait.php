@@ -8,7 +8,8 @@
 
 	namespace App\Traits;
 
-	use App\Models\User;
+	use App\Events\UserCreated;
+    use App\Models\User;
     use App\Repository\UserService\UserRepositoryInterface;
 	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Http\Request;
@@ -114,6 +115,10 @@
                 }
                 }
                $model->save();
+
+
+
+
                 return $model;
               } catch (Exception $e) {
                 return response([
