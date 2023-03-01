@@ -32,4 +32,8 @@ class CountryController extends Controller
     {
         return ['id','name','iso2','iso3'];
     }
+
+    function with(){
+        return [];
+    }
 }

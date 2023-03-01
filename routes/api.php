@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\UsController;
 	use Illuminate\Http\Request;
@@ -31,6 +32,20 @@ Route::group(['prefix' => 'countries'], function () {
     Route::patch('/{id}', [CountryController::class, 'update']);
     Route::delete('/{id}', [CountryController::class, 'delete']);
 });
+
+
+
+Route::group(['prefix' => 'brands'], function () {
+    Route::get('/', [BrandController::class, 'index']);
+    Route::get('/{id}', [BrandController::class, 'show']);
+    Route::post('/', [BrandController::class, 'create']);
+    Route::patch('/{id}', [BrandController::class, 'update']);
+    Route::delete('/{id}', [BrandController::class, 'delete']);
+    Route::delete('/force/delete/{id}', [BrandController::class, 'forceDelete']);
+    Route::get('/find/trashed', [BrandController::class, 'findTrashed']);
+    Route::patch('/restore/trashed/{id}', [BrandController::class, 'restoreTrashed']);
+});
+
 
 Route::group(['prefix' => 'users'], function () {
     Route::get('/', [UsController::class, 'index']);
