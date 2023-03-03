@@ -28,7 +28,7 @@
 		abstract function validationRules($resource_id =0);
 		abstract function columns();
 		abstract function with();
-		abstract function hashed();
+ 
 		abstract function defaults();
 
 
@@ -46,7 +46,7 @@
             $filter = $request->input('filter');
 
             if(!empty($filter)) {
-                if (strlen($filter) >= 3) {
+                if (strlen($filter) >= 2) {
                         $i=0;
                     foreach ($this->columns() as $column){
                         if($column !='id'){
@@ -59,14 +59,17 @@
                         }
                     }
                 }
+
+            }
                 $sort = $request['sort'];
                 if(!empty($sort)) {
                     $split = explode("|", $sort);
-                    $query->orderBy($split[0], $split[1]);
+                    $query->orderBy($split[0],  (!empty($split[1]))?$split[1]:'ASC');
+  
                 }
 
 
-            }
+           
             if(!empty($request->input('limit')) ) {
                 $data = $query->paginate($request->input('limit'));
             } else {
@@ -87,19 +90,7 @@
             }
         }
 
-
-        private  function valueArray( Request $request) {
-
-
-            $values = [];
-            foreach ( $this->columns() as $item){
-                if($item!='id'){
-
-                    $values[$item] =(!empty($request[$item])) ? $request[$item] : ((!empty($this->defaults()[$item]))?$this->defaults()[$item]:'');
-                }
-            }
-            return $values;
-        }
+ 
 
         public function create(Request $request)
 			{
@@ -115,10 +106,6 @@
                 }
                 }
                $model->save();
-
-
-
-
                 return $model;
               } catch (Exception $e) {
                 return response([
@@ -128,8 +115,16 @@
 			}
 
 			public function show($resource_id)
-			{
+			{   try{
+
+            
 				return $this->model()::findOrFail($resource_id);
+                  } catch (Exception $e) {
+                return response([
+                    'msg' => trans('errors.default'),
+                    'srv' => $e->getMessage()
+                ], 400);
+            }
 			}
 
 			public function update(Request $request, $resource_id)
@@ -143,7 +138,15 @@
                 if ($validator->fails()) {
                     return new ValidationException($validator);
                 }
-				 $resource->update($request->all());
+ 
+                foreach ($this->columns() as $column){
+                    if($column!='id'){
+                         $resource->$column =  (!empty( $request[$column]))? $request[$column] :$resource[$column];
+                    }
+                    }
+                   $resource->save();
+
+			//	 $resource->update($request->all());
                     return $resource;
                 }
 			}

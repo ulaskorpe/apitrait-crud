@@ -11,8 +11,7 @@ class UserObserver
 {
     public function created(User $user){
 
-        $user->password = Hash::make($user['password']);
-        $user->save();
+
          event(new UserCreated($user));
 //        $tmp = new TMP();
 //        $tmp->title = "OBSERVER";

@@ -13,7 +13,6 @@ class CountryController extends Controller
 
     use ApiCrudTrait;
 
-
     function model()
     {
         return Country::class;

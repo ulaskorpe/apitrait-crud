@@ -41,9 +41,12 @@ class UsController extends Controller
                 ];
         }else{
 
+            return [ 'role_id'=>'in:'.$roles,'nickname'=>'unique:core_users,nickname,'.$resource_id,
+            'email'=>'email|unique:core_users,email,'.$resource_id,'privacy'=>'in:1,0','newsletter'=>'in:1,0',
+            'deal_type'=>'in:orders,sales','core_deal_id'=>'in:'.$deals,'force_core_deal_id'=>'in:'.$deals,'invoice_receiver'=>'in:1,0'
+            ];
 
-
-            return ['name' => 'required|unique:core_brands,name,'.$resource_id];
+            
         }
     }
 
@@ -53,12 +56,9 @@ class UsController extends Controller
             ,'password','privacy','newsletter','deal_type','deal_value','core_deal_id','force_core_deal_id','invoice_receiver','intern','remember_token'];
 	}
 
-    public  function hashed(){
-	    return ['password','remember_token'];
-    }
-
+     
     public  function with(){
-        return ['products','brands'];
+        return [ ];
     }
 
     public  function defaults(){
